@@ -34,7 +34,7 @@ class API extends Database{
         $checkAll = $this->connect()->prepare("SELECT * FROM communes WHERE code_commune = :code AND nom_commune = :nom");
         $insertCode = $this->connect()->prepare("INSERT INTO communes (code_commune, nom_commune) VALUES (:code, :nom)");
 
-     
+        $exist = $checkAll->fetchAll();
 
         foreach ($parsedData as $key => $value) {
             $nom = $value['nom'];
@@ -44,16 +44,12 @@ class API extends Database{
             $checkAll->bindValue(':nom', $nom, PDO::PARAM_STR);
             $checkAll->execute();
 
-            $exist = $checkAll->fetchAll();
-           
-
+            
             if ($exist != false) {
                 $msg = "your database its updated!";
                 break;
-                
-                
-            }
 
+            }
             else { 
             
                 $insertCode->bindParam(':code', $code, PDO::PARAM_STR);
@@ -62,10 +58,25 @@ class API extends Database{
                
             }
         }
-        
-
-        
     }
 
+    public function sendApiKey($key){
+        $checkKey = $this->connect()->prepare("SELECT * FROM `wp_options` WHERE option_name = 'api_key'");
+        $checkKey->execute();
+        $exist = $checkKey->fetch();
+
+        if ($exist != false) {
+            $update = $this->connect()->prepare("UPDATE `wp_options` SET `option_value` = :apikey WHERE option_name = 'api_key'");
+            $update->bindValue(':apikey', $key, PDO::PARAM_STR);
+            $update->execute();
+            echo "api key updated";
+            
+        }else{
+            $insertKey = $this->connect()->prepare("INSERT INTO `wp_options` (`option_name`, `option_value`) VALUES ('api_key', :api_key)");
+            $insertKey->bindValue(':api_key', $key, PDO::PARAM_STR);
+            $insertKey->execute(); 
+            echo "Added Api Key";
+        }
+    }
 
 }
