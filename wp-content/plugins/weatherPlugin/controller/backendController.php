@@ -1,9 +1,10 @@
 <?php 
-require_once(realpath($_SERVER["DOCUMENT_ROOT"]) .'\weather\wp-content\plugins\weatherPlugin\models\Api.php');
-require_once(realpath($_SERVER["DOCUMENT_ROOT"]) .'\weather\wp-content\plugins\weatherPlugin\models\Functions.php');
+require_once(__DIR__."/../models/Api.php");
+require_once(__DIR__."/../models/Plugin_options.php");
+
 
 $api = new API;
-$api->insertVilleData();
+
 
 
 

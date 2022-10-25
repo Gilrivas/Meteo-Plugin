@@ -5,15 +5,12 @@ class API extends Database{
 
     public function deleteTable(){
         $checkTable = $this->connect()->prepare("DROP TABLE IF EXISTS communes"); 
-        $checkTable->execute();
-        
-       
+        $checkTable->execute(); 
     }
+
     public function createTable(){
         $createTable = $this->connect()->prepare("CREATE TABLE `communes` (`id_commune` int(11) NOT NULL AUTO_INCREMENT, `code_commune` int(6) NOT NULL, `nom_commune` varchar(30) NOT NULL, PRIMARY KEY(id_commune)) ENGINE = MyISAM DEFAULT CHARSET=latin1");
-        $createTable->execute();
-        
-       
+        $createTable->execute(); 
     }
 
     public function insertVilleData(){
